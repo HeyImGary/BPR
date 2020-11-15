@@ -6,12 +6,14 @@ import Snackbar from "@material-ui/core/Snackbar";
 
 import Grid from "@material-ui/core/Grid";
 
-import CardComponent from "./components/card";
+import CardComponent from "../components/card";
 import CircularProgress from "@material-ui/core/CircularProgress";
 
-import "./App.css";
+import Divider from "@material-ui/core/Divider";
 
-function App() {
+import "../App.css";
+
+function Home() {
   const [items, setItems] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
@@ -47,6 +49,32 @@ function App() {
       );
   };
 
+  function filterItems(key) {
+    return (
+      <Grid container spacing={3}>
+        <Grid item xs={12}>
+          <h2>{key} Meals</h2>
+          <br />
+          <Divider />
+        </Grid>
+        {loaded ? (
+          items
+            .filter((f) => f.tags.includes(`${key}`))
+            .map((i) => (
+              <Grid item xs={3}>
+                <CardComponent data={i} />
+              </Grid>
+            ))
+        ) : (
+          <Grid item xs={12}>
+            <CircularProgress />
+            <h2>Fetching Recipes...</h2>
+          </Grid>
+        )}
+      </Grid>
+    );
+  }
+
   useEffect(() => {
     fetch("http://localhost:3001/api/recipes")
       .then((res) => res.json())
@@ -80,6 +108,10 @@ function App() {
         )}
       </Grid>
 
+      {filterItems("Protein")}
+      {filterItems("Vegan")}
+      {filterItems("Healthy")}
+
       <br />
       <form onSubmit={(e) => postRequest(e)}>
         <TextField label="Title" name="title" />
@@ -112,4 +144,4 @@ function App() {
   );
 }
 
-export default App;
+export default Home;

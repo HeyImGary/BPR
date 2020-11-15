@@ -1,14 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import Home from "./pages/home";
+import Blog from "./pages/blog";
+import reportWebVitals from "./reportWebVitals";
+
+import Container from "@material-ui/core/Container";
+
+import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <App />
+    <Router>
+      <Container>
+        <Switch>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="/blog/:blogId">
+            <Blog />
+          </Route>
+        </Switch>
+      </Container>
+    </Router>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById("root")
 );
 
 // If you want to start measuring performance in your app, pass a function
