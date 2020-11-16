@@ -28,7 +28,8 @@ function Home() {
       title: e.target.title.value,
       shortDescription: e.target.description.value,
       tags: e.target.tags.value.split(","),
-      cookTime: e.target.time.value
+      cookTime: e.target.time.value,
+      recipe: e.target.recipe.value
     };
 
     const requestOptions = {
@@ -119,6 +120,8 @@ function Home() {
         <TextField label="Description" type="textarea" name="description" />
         <br />
         <TextField label="Time" type="number" name="time" />
+        <br />
+        <TextField label="Recipe" multiline rows={4} name="recipe" />
         <br />
         <TextField
           label="Tags"

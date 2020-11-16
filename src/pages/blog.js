@@ -26,7 +26,14 @@ function Blog() {
 
   return (
     <div className="App">
-      {loaded ? <h1>{item.title}</h1> : <CircularProgress />}
+      {loaded ? (
+        <>
+          <h1>{item.title}</h1> <br />
+          <p>{item.recipe}</p>
+        </>
+      ) : (
+        <CircularProgress />
+      )}
     </div>
   );
 }

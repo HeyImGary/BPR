@@ -8,11 +8,13 @@ import reportWebVitals from "./reportWebVitals";
 import Container from "@material-ui/core/Container";
 
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { UserContext } from "./contect/userContect";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
       <Container>
+        <UserContext.Provider>
         <Switch>
           <Route exact path="/">
             <Home />
@@ -21,6 +23,7 @@ ReactDOM.render(
             <Blog />
           </Route>
         </Switch>
+        <//UserContext.Provider>
       </Container>
     </Router>
   </React.StrictMode>,
