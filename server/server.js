@@ -5,7 +5,8 @@ const app = express();
 const apiPort = 3001;
 
 const db = require("./db");
-const userRouter = require("./routes/recipe-router");
+const recipeRouter = require("./routes/recipe-router");
+const userRouter = require("./routes/user-router");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
@@ -19,6 +20,7 @@ app.get("/", (req, res) => {
   console.log("hi");
 });
 
-app.use("/api", userRouter);
+app.use("/recipes", recipeRouter);
+app.use("/user", userRouter);
 
 app.listen(apiPort, () => console.log("Server ruiing at port", apiPort));

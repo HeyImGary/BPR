@@ -12,7 +12,7 @@ function Blog() {
   useEffect(() => {
     async function FetchData() {
       const response = await fetch(
-        `http://localhost:3001/api/recipes/${blogId}`
+        `http://localhost:3001/recipes/recipes/${blogId}`
       );
       const data = await response.json();
 

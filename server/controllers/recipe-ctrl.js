@@ -16,6 +16,22 @@ const getrecipebyId = async (req, res) => {
   }).catch((err) => console.log(err));
 };
 
+const getRecipesByUser = async (req, res) => {
+  await Recipes.find({ creator: req.params.id }, (err, recipe) => {
+    if (err) {
+      return res.status(400).json({ success: false, error: err });
+    }
+
+    if (!recipe) {
+      return res
+        .status(404)
+        .json({ success: false, error: "No recipes by user found" });
+    }
+
+    return res.status(200).json({ success: true, data: recipe });
+  }).catch((err) => console.log(err));
+};
+
 const getRecipes = async (req, res) => {
   await Recipes.find({}, (err, recipe) => {
     if (err) {
@@ -32,8 +48,6 @@ const getRecipes = async (req, res) => {
 const createRecipe = (req, res) => {
   const body = req;
 
-  console.log(req.body);
-
   if (!body) {
     return res.status(400).json({
       success: false,
@@ -46,11 +60,9 @@ const createRecipe = (req, res) => {
   if (!x) {
     return res.status(400).json({
       success: false,
-      error: err
+      error: "No info sent"
     });
   }
-
-  console.log("test", x);
 
   x.save()
     .then(() => {
@@ -64,4 +76,4 @@ const createRecipe = (req, res) => {
     });
 };
 
-module.exports = { getrecipebyId, getRecipes, createRecipe };
+module.exports = { getrecipebyId, getRecipes, createRecipe, getRecipesByUser };

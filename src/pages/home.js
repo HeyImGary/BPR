@@ -38,7 +38,7 @@ function Home() {
       body: JSON.stringify(data)
     };
 
-    fetch("http://localhost:3001/api/createRecipes", requestOptions)
+    fetch("http://localhost:3001/recipes/createRecipes", requestOptions)
       .then((res) => res.json())
       .then((res) => (data._id = res.id))
       .then(
@@ -77,7 +77,7 @@ function Home() {
   }
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/recipes")
+    fetch("http://localhost:3001/recipes/recipes")
       .then((res) => res.json())
       .then(
         (res) => {

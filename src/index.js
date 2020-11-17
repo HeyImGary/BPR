@@ -1,29 +1,42 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+
 import Home from "./pages/home";
 import Blog from "./pages/blog";
+import AddPost from "./pages/addPost";
+import Profile from "./pages/profile";
+
 import reportWebVitals from "./reportWebVitals";
 
 import Container from "@material-ui/core/Container";
+import { makeStyles } from "@material-ui/core/styles";
 
-import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import { UserContext } from "./contect/userContect";
+import AppBarComponent from "./components/appBar";
 
 ReactDOM.render(
   <React.StrictMode>
     <Router>
+      <AppBarComponent />
       <Container>
-        <UserContext.Provider>
-        <Switch>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="/blog/:blogId">
-            <Blog />
-          </Route>
-        </Switch>
-        <//UserContext.Provider>
+        <UserContext.Provider value="Hello from context">
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="/blog/:blogId">
+              <Blog />
+            </Route>
+            <Route path="/addPost">
+              <AddPost />
+            </Route>
+            <Route path="/profile">
+              <Profile />
+            </Route>
+          </Switch>
+        </UserContext.Provider>
       </Container>
     </Router>
   </React.StrictMode>,
