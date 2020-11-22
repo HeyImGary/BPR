@@ -17,7 +17,7 @@ const getrecipebyId = async (req, res) => {
 };
 
 const getRecipesByUser = async (req, res) => {
-  await Recipes.find({ creator: req.params.id }, (err, recipe) => {
+  await Recipes.find({ "creator.id": req.params.id }, (err, recipe) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
@@ -40,7 +40,6 @@ const getRecipes = async (req, res) => {
     if (!recipe.length) {
       return res.status(404).json({ success: false, error: `Movie not found` });
     }
-    console.log(recipe);
     return res.status(200).json({ success: true, data: recipe });
   }).catch((err) => console.log(err));
 };

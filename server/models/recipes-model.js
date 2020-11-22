@@ -7,7 +7,8 @@ const Recipes = new Schema({
   tags: [{ type: String }],
   recipe: { type: String },
   cookTime: { type: Number },
-  shortDescription: { type: String }
+  shortDescription: { type: String },
+  creator: { id: { type: String }, username: { type: String } }
 });
 
 module.exports = mongoose.model("recipes", Recipes);

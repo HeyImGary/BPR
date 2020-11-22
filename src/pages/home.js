@@ -1,8 +1,9 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Snackbar from "@material-ui/core/Snackbar";
+import Typography from "@material-ui/core/Typography";
 
 import Grid from "@material-ui/core/Grid";
 
@@ -11,9 +12,13 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 
 import Divider from "@material-ui/core/Divider";
 
+import UserContext from "../contect/userContect";
+
 import "../App.css";
 
 function Home() {
+  const { user } = useContext(UserContext);
+
   const [items, setItems] = useState([]);
   const [loaded, setLoaded] = useState(false);
   const [open, setOpen] = useState(false);
@@ -29,7 +34,8 @@ function Home() {
       shortDescription: e.target.description.value,
       tags: e.target.tags.value.split(","),
       cookTime: e.target.time.value,
-      recipe: e.target.recipe.value
+      recipe: e.target.recipe.value,
+      creator: { id: user._id, username: user.username }
     };
 
     const requestOptions = {
@@ -42,16 +48,15 @@ function Home() {
       .then((res) => res.json())
       .then((res) => (data._id = res.id))
       .then(
-        console.log(data),
         setItems((items) => [...items, data]),
         (error) => {
-          console.log("you fucked up", error);
+          console.log("Error: ", error);
         }
       );
   };
 
   function filterItems(key) {
-    return (
+    return items ? null : (
       <Grid container spacing={3}>
         <Grid item xs={12}>
           <h2>{key} Meals</h2>
@@ -62,7 +67,7 @@ function Home() {
           items
             .filter((f) => f.tags.includes(`${key}`))
             .map((i) => (
-              <Grid item xs={3}>
+              <Grid item key={i._id} xs={3}>
                 <CardComponent data={i} />
               </Grid>
             ))
@@ -82,7 +87,6 @@ function Home() {
       .then(
         (res) => {
           setItems(res.data);
-          console.log(items);
           setLoaded(true);
         },
         (error) => {
@@ -93,11 +97,11 @@ function Home() {
 
   return (
     <div className="App">
-      <h1>Blue Pear Food Network</h1>
+      <h1>{process.env.REACT_APP_TITLE}</h1>
       <Grid container spacing={3}>
         {loaded ? (
           items.map((i) => (
-            <Grid item xs={3}>
+            <Grid item key={i._id} xs={3}>
               <CardComponent data={i} />
             </Grid>
           ))
@@ -114,26 +118,28 @@ function Home() {
       {filterItems("Healthy")}
 
       <br />
-      <form onSubmit={(e) => postRequest(e)}>
-        <TextField label="Title" name="title" />
-        <br />
-        <TextField label="Description" type="textarea" name="description" />
-        <br />
-        <TextField label="Time" type="number" name="time" />
-        <br />
-        <TextField label="Recipe" multiline rows={4} name="recipe" />
-        <br />
-        <TextField
-          label="Tags"
-          name="tags"
-          helperText="Separate Tags by ',' "
-        />
-        <br />
-        <br />
-        <Button color="primary" type="submit" variant="contained">
-          Submit
-        </Button>
-      </form>
+      {user ? (
+        <form onSubmit={(e) => postRequest(e)}>
+          <TextField label="Title" name="title" />
+          <br />
+          <TextField label="Description" type="textarea" name="description" />
+          <br />
+          <TextField label="Time" type="number" name="time" />
+          <br />
+          <TextField label="Recipe" multiline rows={4} name="recipe" />
+          <br />
+          <TextField
+            label="Tags"
+            name="tags"
+            helperText="Separate Tags by ',' "
+          />
+          <br />
+          <br />
+          <Button color="primary" type="submit" variant="contained">
+            Submit
+          </Button>
+        </form>
+      ) : null}
       <br />
 
       <Snackbar

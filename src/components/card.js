@@ -1,6 +1,4 @@
 import Card from "@material-ui/core/Card";
-import CardActions from "@material-ui/core/CardActions";
-import CardActionArea from "@material-ui/core/CardActionArea";
 import Typography from "@material-ui/core/Typography";
 import CardContent from "@material-ui/core/CardContent";
 import Button from "@material-ui/core/Button";
@@ -15,21 +13,21 @@ const CardComponent = (props) => {
   return (
     <Card variant="outlined">
       <CardContent>
-        <Typography
-          variant="h5"
-          onClick={() => history.push("/blog/" + props.data._id)}
-        >
-          {props.data.title}
-        </Typography>
+        <Typography variant="h5">{props.data.title}</Typography>
       </CardContent>
-      <Typography variant="p">{props.data.shortDescription} </Typography>
+      <Typography variant="body1">{props.data.shortDescription} </Typography>
 
       <CardContent>
-        <Button variant="primary">Go To Recipy</Button>
+        <Button
+          onClick={() => history.push("/recipe/" + props.data._id)}
+          variant="contained"
+        >
+          Go To Recipe
+        </Button>
       </CardContent>
 
-      {props.data.tags.map((tag) => (
-        <Chip label={tag} style={{ margin: 5 }} />
+      {props.data.tags.map((tag, index) => (
+        <Chip color="primary" key={index} label={tag} style={{ margin: 5 }} />
       ))}
     </Card>
   );

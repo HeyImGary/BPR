@@ -1,35 +1,43 @@
 import "../App.css";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useHistory } from "react-router-dom";
 
 import CircularProgress from "@material-ui/core/CircularProgress";
+import Button from "@material-ui/core/Button";
 
-function Blog() {
-  let { blogId } = useParams();
+function Recipe() {
+  let { recipeId } = useParams();
   const [loaded, setLoaded] = useState(false);
   const [item, setItem] = useState();
+  let history = useHistory();
 
   useEffect(() => {
     async function FetchData() {
       const response = await fetch(
-        `http://localhost:3001/recipes/recipes/${blogId}`
+        `http://localhost:3001/recipes/recipes/${recipeId}`
       );
       const data = await response.json();
 
       setItem(data.data);
       setLoaded(true);
-      console.log(data.data);
     }
 
     FetchData();
-  }, [blogId]);
+  }, [recipeId]);
 
+  console.log(item);
   return (
     <div className="App">
       {loaded ? (
         <>
           <h1>{item.title}</h1> <br />
-          <p>{item.recipe}</p>
+          <p>{item.recipe}</p> <br />
+          <Button
+            variant="contained"
+            onClick={() => history.push(`/profile/${item.creator.id}`)}
+          >
+            {item.creator.username}
+          </Button>
         </>
       ) : (
         <CircularProgress />
@@ -38,4 +46,4 @@ function Blog() {
   );
 }
 
-export default Blog;
+export default Recipe;
