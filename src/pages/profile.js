@@ -97,11 +97,14 @@ function Profile() {
             <Typography variant="body1">
               Followers: {userData.followers.length}
             </Typography>
-            {isLoggedInUser ? null : (
-              <Button variant="contained" onClick={() => followUser()}>
-                Follow
-              </Button>
-            )}
+            {user
+              ? (console.log("hi"),
+                isLoggedInUser ? null : (
+                  <Button variant="contained" onClick={() => followUser()}>
+                    Follow
+                  </Button>
+                ))
+              : null}
           </Grid>
 
           {userData.description ? (
